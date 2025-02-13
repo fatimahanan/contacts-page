@@ -13,13 +13,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ViewModel : ViewModel() {
+class ViewModel(private val repository: ContactsRepository) : ViewModel() {
 
     private val _contactsDetails = MutableLiveData<List<ContactsModel>>(emptyList())
     val contactsDetails: LiveData<List<ContactsModel>> = _contactsDetails
     private var job: Job? = null
 
-    private val repository=ContactsRepository()
+//    private val repository=ContactsRepository()
 
     fun getContactsInfo() {
         job = viewModelScope.launch(Dispatchers.IO) {

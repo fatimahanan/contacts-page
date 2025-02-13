@@ -10,14 +10,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactstask1.api.ContactsModel
+import com.example.contactstask1.api.ContactsRepository
 import com.example.contactstask1.recyclerView.RecyclerViewAdapter
+import com.example.contactstask1.room.ContactDatabase
 import com.example.contactstask1.viewmodel.ViewModel
+import com.example.contactstask1.viewmodel.ViewModelFactory
 
 class ContactsFragment : Fragment(), RecyclerViewAdapter.ItemClickListener {
 
     private lateinit var mRecyclerView: RecyclerView
     private var mAdapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
-    private val viewModel by viewModels<ViewModel>()
+    private val viewModel by viewModels<ViewModel>{
+        val contactDao = ContactDatabase.getDatabase(requireContext()).contactDao()
+        ViewModelFactory(contactDao, requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +52,6 @@ class ContactsFragment : Fragment(), RecyclerViewAdapter.ItemClickListener {
             )
             adapter = mAdapter
         }
-
     }
 
 

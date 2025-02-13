@@ -1,4 +1,5 @@
 package com.example.contactstask1.api
+import com.example.contactstask1.room.Contact
 import com.google.gson.annotations.SerializedName
 
 
