@@ -17,19 +17,11 @@ class ContactsRepository(private val contactDao: ContactDao, private val context
             .baseUrl(Constants.BASE_URL) // Base URL
             .build()
             .create(ContactsAPI::class.java)
-        try {
             val response = api.getContacts()
-            // Log the response to check if API call is successful
-            Log.d("API Response", response.toString())
 
             return response.map { contactEntity ->
                 contactEntity.toContact()
             }
-        } catch (e: Exception) {
-            // Log the error if the API call fails
-            Log.e("API Error", "Error fetching contacts from API: ${e.message}")
-            throw e // Rethrow the exception to handle it properly in the calling code
-        }
     }
 
 //        val response = api.getContacts()
@@ -44,9 +36,9 @@ class ContactsRepository(private val contactDao: ContactDao, private val context
     suspend fun getContactsInfo(): List<ContactsModel> {
         return if (NetworkUtil.isNetworkAvailable(context)) {
             val apiContacts = getContactsInfoFromApi()
-            contactDao.deleteAll()  // Delete all existing contacts
-            contactDao.insertAll(apiContacts) //save to room db
-            apiContacts.map { it.toContactsModel() }  //return the ContactsModel
+            contactDao.deleteAll()
+            contactDao.insertAll(apiContacts)
+            apiContacts.map { it.toContactsModel() }
         } else {
             //if offline, get from room db
             contactDao.getAllContacts().map { it.toContactsModel() }
