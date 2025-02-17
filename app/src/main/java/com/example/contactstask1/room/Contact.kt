@@ -11,7 +11,7 @@ data class Contact(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "company_name") val companyName: String
 ){
-    fun toContactsModel(): ContactsModel{           //to convert contactsEntity(room db) to contact obj
+    fun toContactsModel(): ContactsModel{           //to convert Contact entity(room) to simple ui model
         return ContactsModel(
             name=this.name,
             companyName=this.companyName

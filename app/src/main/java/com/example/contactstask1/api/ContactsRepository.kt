@@ -5,7 +5,6 @@ import android.util.Log
 import com.example.contactstask1.room.ContactDao
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.contactstask1.api.toContact
 import com.example.contactstask1.room.Contact
 
 
@@ -45,6 +44,7 @@ class ContactsRepository(private val contactDao: ContactDao, private val context
     suspend fun getContactsInfo(): List<ContactsModel> {
         return if (NetworkUtil.isNetworkAvailable(context)) {
             val apiContacts = getContactsInfoFromApi()
+            contactDao.deleteAll()  // Delete all existing contacts
             contactDao.insertAll(apiContacts) //save to room db
             apiContacts.map { it.toContactsModel() }  //return the ContactsModel
         } else {

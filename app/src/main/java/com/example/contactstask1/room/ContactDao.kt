@@ -15,4 +15,7 @@ interface ContactDao {
 
     @Delete
     suspend fun delete(contact: Contact)
+
+    @Query("DELETE FROM contacts")
+    suspend fun deleteAll()
 }

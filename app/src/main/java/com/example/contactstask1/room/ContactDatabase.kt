@@ -13,7 +13,6 @@ abstract class ContactDatabase : RoomDatabase() {
         private var INSTANCE: ContactDatabase? = null
 
         fun getDatabase(context: Context): ContactDatabase {
-            // If the instance is null, create a new one, else return the existing one
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
